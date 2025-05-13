@@ -21,18 +21,17 @@ pipeline {
         stage('Setup Virtual Environment') {
             steps {
                 script {
-                    if (!fileExists(env.VENV_DIR)) {
-                        echo "Creating virtual environment..."
-                        sh """
-                        python3 -m venv .venv
-                        . ${VENV_ACTIVATE}
-                        pip install --upgrade pip
-                        pip install -r requirements.txt
-                        """
-                    } else {
-                        echo "Virtual environment already exists."
+                    if (fileExists(env.VENV_DIR)) {
+                        echo 'Virtual environment already exists. Removing it...'
+                        sh 'rm -rf .venv'
                     }
-
+                    echo "Creating virtual environment..."
+                    sh """
+                    python3 -m venv .venv
+                    . ${VENV_ACTIVATE}
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                    """
                 }
             }
         }
