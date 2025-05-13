@@ -7,8 +7,8 @@ from sklearn.model_selection import train_test_split
 
 def load_data(path):
     df = pd.read_csv(path)
-    X = df.drop(columns=["target"])  # замените 'target' на вашу целевую переменную
-    y = df["target"]
+    X = df.drop(columns=["y"])  # замените 'target' на вашу целевую переменную
+    y = df["y"]
     return X, y
 
 
