@@ -2,7 +2,7 @@ import joblib
 import json
 
 
-def load_model(path="models/model.joblib"):
+def load_model(path="model/model.joblib"):
     return joblib.load(path)
 
 
