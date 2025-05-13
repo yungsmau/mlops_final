@@ -1,0 +1,7 @@
+[core]
+    remote = myremote
+['remote "myremote"']
+    url = s3://data
+    access_key_id = urfu_mlops_admin
+    secret_access_key = urfu_mlops_password
+    endpointurl = http://51.250.94.139:9000
