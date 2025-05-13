@@ -5,3 +5,4 @@ uvicorn
 scikit-learn
 pandas
 joblib
+pytest

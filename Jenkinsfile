@@ -62,9 +62,15 @@ pipeline {
         stage('Check Metrics and Retrain if Necessary') {
             steps {
                 script {
-                    def metrics = readJSON file: 'metrics.json'
-                    if (metrics.r2 < 0.8 || metrics.mse > 1000) {
-                        echo "Metrics are poor, retraining on clean dataset..."
+                    // Запускаем тесты, проверяющие метрики
+                    def testResult = sh(script: """
+                        . ${env.VENV_ACTIVATE}
+                        pytest --maxfail=1 --disable-warnings -q tests/test_metrics.py
+                    """, returnStatus: true)
+
+                    // Если тесты не прошли (возвращают ненулевой статус), перезапускаем обучение
+                    if (testResult != 0) {
+                        echo "Metrics failed the test, retraining on clean dataset..."
                         sh """
                         . ${env.VENV_ACTIVATE}
                         python pipeline/train.py --data data/clean.csv --output model/model.joblib
